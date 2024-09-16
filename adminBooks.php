@@ -37,7 +37,7 @@ if (!empty($_GET["delete"]) && $_GET["delete"] == "1" && !empty($_GET["bookId"])
             <thead>
             <tr>
                 <th scope="col" colspan="2">Bog Titel</th>
-                <th scope="col" class="text-end fw-normal"><a href="adminBookInsert.php">Opret bog</a></th>
+                <th scope="col" class="text-end fw-normal"><a href="adminBookInsert.php">Tilføj bog</a></th>
             </tr>
             </thead>
 
