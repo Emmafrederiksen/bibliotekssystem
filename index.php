@@ -40,7 +40,7 @@ require "settings/init.php";
                         ?>
                     </div>
                     <div class="card-footer text-muted text-center">
-                        <a class="btn btn-primary text-light stretched-link" href="index.php?eventId=<?php echo $bibliotek->bookId; ?>" role="button">Læs mere</a>
+                        <a class="btn btn-primary text-light stretched-link" href="book.php?bookId=<?php echo $bibliotek->bookId; ?>" role="button">Læs mere</a>
                     </div>
                 </div>
             </div>
