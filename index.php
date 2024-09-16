@@ -21,7 +21,7 @@ require "settings/init.php";
 <body>
 
 <div class="container">
-    <h1 class="d-flex justify-content-center py-5">Bog oversigt</h1>
+    <h1 class="py-5">Oversigt over bøger</h1>
     <div class="row g-4">
         <?php
         $biblioteker = $db->sql("SELECT * FROM books ORDER BY bookId ASC");
