@@ -27,7 +27,7 @@ require "settings/init.php";
         $biblioteker = $db->sql("SELECT * FROM books ORDER BY bookId");
         foreach($biblioteker as $bibliotek) {
             ?>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 <div class="card w-100">
                     <div class="card-header bg-info-subtle text-black py-3">
                         <?php
@@ -36,8 +36,16 @@ require "settings/init.php";
                     </div>
                     <div class="card-body">
                         <?php
-                        echo $bibliotek->bookGenre;
+                        if (!empty($bibliotek->bookImage)) {
+                            echo "<img src='img/" . $bibliotek->bookImage . "' alt='" . $bibliotek->bookTitle . "' style='max-width: 100%; height: 400px;'>";
+                        } else {
+                            echo "Intet billede tilgængeligt";
+                        }
                         ?>
+                    </div>
+
+                    <div class="card-body">
+                        Genre: <?php echo $bibliotek->bookGenre; ?>
                     </div>
                     <div class="card-footer text-muted text-center">
                         <a class="btn btn-primary text-light stretched-link" href="book.php?bookId=<?php echo $bibliotek->bookId; ?>" role="button">Læs mere</a>
