@@ -24,7 +24,7 @@ require "settings/init.php";
     <h1 class="py-5">Oversigt over bøger</h1>
     <div class="row g-4">
         <?php
-        $biblioteker = $db->sql("SELECT * FROM books ORDER BY bookId ASC");
+        $biblioteker = $db->sql("SELECT * FROM books ORDER BY bookId");
         foreach($biblioteker as $bibliotek) {
             ?>
             <div class="col-12 col-md-6">
