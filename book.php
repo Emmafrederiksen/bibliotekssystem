@@ -43,7 +43,7 @@ $book = $book[0];
         <div class="row g-4 mt-2">
             <?php
             // Hent alle forfattere som har skrevet den samme bog
-            $author = $db->sql("SELECT authName FROM author INNER JOIN book_author_con ON authId = boAuCAuthorId WHERE boAuCBookId = :bookId", [":bookId" => $bookId]);
+            $author = $db->sql("SELECT authId, authName FROM author INNER JOIN book_author_con ON authId = boAuCAuthorId WHERE boAuCBookId = :bookId", [":bookId" => $bookId]);
 
             foreach($author as $auth) {
                 ?>

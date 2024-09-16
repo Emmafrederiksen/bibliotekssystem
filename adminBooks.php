@@ -36,8 +36,8 @@ if (!empty($_GET["delete"]) && $_GET["delete"] == "1" && !empty($_GET["bookId"])
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col" colspan="3">Bog Titel</th>
-                <th scope="col" class="text-end fw-normal"><a href="adminBooksInsert.php" target="_blank">Opret bog</a></th>
+                <th scope="col" colspan="2">Bog Titel</th>
+                <th scope="col" class="text-end fw-normal"><a href="adminBooksInsert.php">Opret bog</a></th>
             </tr>
             </thead>
 
@@ -47,7 +47,6 @@ if (!empty($_GET["delete"]) && $_GET["delete"] == "1" && !empty($_GET["bookId"])
             $books = $db->sql("SELECT bookId, bookTitle FROM books ORDER BY bookTitle ASC");
             foreach ($books as $book) {
                 ?>
-
                 <tr>
                     <td><?php echo $book->bookTitle; ?></td>
                     <td class="text-end"><a href="adminBookUpdate.php?bookId=<?php echo $book->bookId; ?>">Rediger</a></td>
