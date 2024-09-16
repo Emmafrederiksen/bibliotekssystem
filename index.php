@@ -1,4 +1,5 @@
 <?php
+/** @var PDO $db */
 require "settings/init.php";
 ?>
 <!DOCTYPE html>
@@ -6,7 +7,7 @@ require "settings/init.php";
 <head>
 	<meta charset="utf-8">
 	
-	<title>Sigende titel</title>
+	<title>Bibliotekssystem</title>
 	
 	<meta name="robots" content="All">
 	<meta name="author" content="Udgiver">
@@ -18,6 +19,36 @@ require "settings/init.php";
 </head>
 
 <body>
+
+<div class="container">
+    <h1 class="d-flex justify-content-center py-5">Bog oversigt</h1>
+    <div class="row g-4">
+        <?php
+        $biblioteker = $db->sql("SELECT * FROM books ORDER BY bookId ASC");
+        foreach($biblioteker as $bibliotek) {
+            ?>
+            <div class="col-12 col-md-6">
+                <div class="card w-100">
+                    <div class="card-header bg-info-subtle text-black py-3">
+                        <?php
+                        echo "<h2 class='m-0'>".$bibliotek->bookTitle . "<span class='text-secondary'> / " . $bibliotek->bookYear . "</span></h2>";
+                        ?>
+                    </div>
+                    <div class="card-body">
+                        <?php
+                        echo $bibliotek->bookGenre;
+                        ?>
+                    </div>
+                    <div class="card-footer text-muted text-center">
+                        <a class="btn btn-primary text-light stretched-link" href="index.php?eventId=<?php echo $bibliotek->bookId; ?>" role="button">Læs mere</a>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+        ?>
+    </div>
+</div>
 
 
 
