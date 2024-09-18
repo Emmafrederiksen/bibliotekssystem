@@ -37,7 +37,7 @@ $books = $db->sql("SELECT bookId, bookTitle, bookImage FROM books
     <h1>Forfatter: <?php echo $author->authName; ?></h1>
 
     <!-- Vis forfatterens andre bøger -->
-    <h4>Andre bøger skrevet af denne forfatter:</h4>
+    <h4 class="pt-5">Andre bøger skrevet af denne forfatter:</h4>
     <div class="row g-4 mt-2">
         <?php foreach($books as $book) { ?>
             <div class="col-12 col-md-4">
@@ -47,13 +47,13 @@ $books = $db->sql("SELECT bookId, bookTitle, bookImage FROM books
                     </div>
                     <div class="card-body">
                         <?php if (!empty($book->bookImage)) { ?>
-                            <img src="img/<?php echo $book->bookImage; ?>" alt="<?php echo $book->bookTitle; ?>" style="max-width: 100%; height: 200px;">
+                            <img src="img/<?php echo $book->bookImage; ?>" alt="<?php echo $book->bookTitle; ?>" class="d-block mx-auto" style="max-width: 100%; height: 200px;">
                         <?php } else { ?>
                             <p>Intet billede tilgængeligt</p>
                         <?php } ?>
                     </div>
                     <div class="card-footer">
-                        <a href="book.php?bookId=<?php echo $book->bookId; ?>" class="btn btn-primary">Læs mere</a>
+                        <a href="book.php?bookId=<?php echo $book->bookId; ?>" class="btn btn-outline-secondary">Læs mere</a>
                     </div>
                 </div>
             </div>

@@ -70,6 +70,10 @@ $book = $book[0]; // Vælg den første (og eneste) række fra resultatet
                 <input type="text" class="form-control" id="bookGenre" name="data[bookGenre]" value="<?php echo $book->bookGenre; ?>" required>
             </div>
             <div class="col-12 col-md-4">
+                <label for="authors" class="form-label">Forfattere (adskilt med komma)</label>
+                <input type="text" name="authors" id="authors" class="form-control" placeholder="Fx: J.K. Rowling, George R.R. Martin">
+            </div>
+            <div class="col-12 col-md-4">
                 <input type="hidden" name="bookId" value="<?php echo $bookId; ?>">
                 <button type="submit" class="btn btn-primary w-25">Opdater</button>
             </div>

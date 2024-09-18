@@ -37,7 +37,7 @@ require "settings/init.php";
                     <div class="card-body">
                         <?php
                         if (!empty($bibliotek->bookImage)) {
-                            echo "<img src='img/" . $bibliotek->bookImage . "' alt='" . $bibliotek->bookTitle . "' style='max-width: 100%; height: 400px;'>";
+                            echo "<img src='img/" . $bibliotek->bookImage . "' alt='" . $bibliotek->bookTitle . "' class='d-block mx-auto' style='max-width: 100%; height: 400px;'>";
                         } else {
                             echo "Intet billede tilgængeligt";
                         }
@@ -47,8 +47,8 @@ require "settings/init.php";
                     <div class="card-body">
                         Genre: <?php echo $bibliotek->bookGenre; ?>
                     </div>
-                    <div class="card-footer text-muted text-center">
-                        <a class="btn btn-primary text-light stretched-link" href="book.php?bookId=<?php echo $bibliotek->bookId; ?>" role="button">Læs mere</a>
+                    <div class="card-footer text-muted">
+                        <a class="btn btn-outline-secondary stretched-link" href="book.php?bookId=<?php echo $bibliotek->bookId; ?>" role="button">Læs mere</a>
                     </div>
                 </div>
             </div>

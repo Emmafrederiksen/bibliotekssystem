@@ -4,16 +4,57 @@ require "settings/init.php";
 
 if (!empty($_POST)) {
     // Hent input fra formularen og indsæt det i databasen
-    $db->sql("INSERT INTO events (evenName, evenDescription, evenDateTime, evenLocation) 
-              VALUES (:evenName, :evenDescription, :evenDateTime, :evenLocation)", [
-        ":evenName" => $_POST["evenName"],
-        ":evenDescription" => $_POST["evenDescription"],
-        ":evenDateTime" => $_POST["evenDateTime"],
-        ":evenLocation" => $_POST["evenLocation"]
+    $db->sql("INSERT INTO books (bookTitle, bookYear, bookGenre) 
+              VALUES (:bookTitle, :bookYear, :bookGenre)", [
+        ":bookTitle" => $_POST["bookTitle"],
+        ":bookYear" => $_POST["bookYear"],
+        ":bookGenre" => $_POST["bookGenre"],
     ]);
 
-    // Redirect tilbage til adminEvents.php
-    header("Location: adminEvents.php");
+    // Hent den sidste indsatte bookId
+    $book = $db->sql("SELECT bookId FROM books ORDER BY bookId DESC LIMIT 1");
+    $bookId = $book[0]->bookId;
+
+    // Håndter forfattere, hvis der er indtastet nogen
+    if (!empty($_POST['authors'])) {
+        $authors = explode(',', $_POST['authors']); // Split forfatternavnene ved komma
+
+        foreach ($authors as $authorName) {
+            $authorName = trim($authorName); // Fjern mellemrum før og efter navnet
+
+            if (!empty($authorName)) {
+                // Tjek om forfatteren allerede findes i databasen
+                $existingAuthor = $db->sql("SELECT authId FROM author WHERE authName = :authName", [
+                    ":authName" => $authorName
+                ]);
+
+                if (empty($existingAuthor)) {
+                    // Hvis forfatteren ikke findes, indsæt den i author-tabellen
+                    $db->sql("INSERT INTO author (authName) VALUES (:authName)", [
+                        ":authName" => $authorName
+                    ]);
+
+                    // Hent den sidste indsatte authId
+                    $author = $db->sql("SELECT authId FROM author ORDER BY authId DESC LIMIT 1");
+                    $authorId = $author[0]->authId;
+                } else {
+                    // Hvis forfatteren allerede findes, brug den eksisterende authId
+                    $authorId = $existingAuthor[0]->authId;
+                }
+
+                // Opret relationen mellem bogen og forfatteren i book_author_con
+                $db->sql("INSERT INTO book_author_con (boAuCBookId, boAuCAuthorId) 
+                          VALUES (:bookId, :authorId)", [
+                    ":bookId" => $bookId,
+                    ":authorId" => $authorId
+                ]);
+            }
+        }
+    }
+
+
+    // Redirect tilbage til adminBooks.php efter at have oprettet bogen
+    header("Location: adminBooks.php");
     exit;
 }
 ?>
@@ -37,25 +78,26 @@ if (!empty($_POST)) {
 <body>
 
 <div class="container">
-    <h1>Tilføj nyt event</h1>
-    <form method="post" action="adminEventsInsert.php">
+    <h1>Tilføj ny bog</h1>
+    <form method="post" action="adminBookInsert.php">
         <div class="mb-3 col-12 col-md-6">
-            <label for="evenName" class="form-label">Event Navn</label>
-            <input type="text" name="evenName" id="evenName" class="form-control" required>
+            <label for="bookTitle" class="form-label">Bogtitel</label>
+            <input type="text" name="bookTitle" id="bookTitle" class="form-control" required>
         </div>
         <div class="mb-3 col-12 col-md-6">
-            <label for="evenDescription" class="form-label">Beskrivelse</label>
-            <textarea name="evenDescription" id="evenDescription" class="form-control" required></textarea>
+            <label for="bookYear" class="form-label">Udgivelsesår</label>
+            <input type="number" name="bookYear" id="bookYear" class="form-control" required>
         </div>
         <div class="mb-3 col-12 col-md-6">
-            <label for="evenDateTime" class="form-label">Dato og tid</label>
-            <input type="datetime-local" name="evenDateTime" id="evenDateTime" class="form-control" required>
+            <label for="bookGenre" class="form-label">Genre</label>
+            <input type="text" name="bookGenre" id="bookGenre" class="form-control" required>
         </div>
         <div class="mb-3 col-12 col-md-6">
-            <label for="evenLocation" class="form-label">Lokation</label>
-            <input type="text" name="evenLocation" id="evenLocation" class="form-control" required>
+            <label for="authors" class="form-label">Forfattere (adskilt med komma)</label>
+            <input type="text" name="authors" id="authors" class="form-control" placeholder="Fx: J.K. Rowling, George R.R. Martin">
         </div>
-        <button type="submit" class="btn btn-primary">Tilføj event</button>
+
+        <button type="submit" class="btn btn-primary">Tilføj bog</button>
     </form>
 </div>
 
