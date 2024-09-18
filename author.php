@@ -11,7 +11,7 @@ $authorId = $_GET["authorId"];
 
 // Hent forfatterens data
 $author = $db->sql("SELECT * FROM author WHERE authId = :authorId", [':authorId' => $authorId]);
-$author = $author[0]; // Sørg for, at du henter den første række korrekt
+$author = $author[0];
 
 // Hent andre bøger skrevet af forfatteren
 $books = $db->sql("SELECT bookId, bookTitle, bookImage FROM books 
@@ -35,6 +35,7 @@ $books = $db->sql("SELECT bookId, bookTitle, bookImage FROM books
 <body>
 <div class="container mt-4">
     <h1>Forfatter: <?php echo $author->authName; ?></h1>
+    <h5>Født: <?php echo $author->authBirthday; ?></h5>
 
     <!-- Vis forfatterens andre bøger -->
     <h4 class="pt-5">Andre bøger skrevet af denne forfatter:</h4>
