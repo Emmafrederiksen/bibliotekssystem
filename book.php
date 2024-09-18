@@ -28,6 +28,8 @@ $authors = $db->sql("SELECT authId, authName FROM author
     <meta name="author" content="Udgiver">
     <meta name="copyright" content="Information om copyright">
     <link href="css/styles.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
@@ -35,19 +37,41 @@ $authors = $db->sql("SELECT authId, authName FROM author
 <div class="container mt-4">
     <h1>Bog: <?php echo $book->bookTitle; ?></h1>
 
-    <!-- Viser bogens billede -->
-    <div class="my-3">
-        <?php if (!empty($book->bookImage)) { ?>
-            <img src="img/<?php echo $book->bookImage; ?>" alt="<?php echo $book->bookTitle; ?>" style="max-width: 100%; height: 400px;">
-        <?php } else { ?>
-            <p>Intet billede tilgængeligt</p>
-        <?php } ?>
+    <div class="row pt-4">
+        <!-- Billedet til venstre -->
+        <div class="col-md-6">
+            <?php if (!empty($book->bookImage)) { ?>
+                <img src="img/<?php echo $book->bookImage; ?>" alt="<?php echo $book->bookTitle; ?>" style="max-width: 100%; height: 400px;">
+            <?php } else { ?>
+                <p>Intet billede tilgængeligt</p>
+            <?php } ?>
+        </div>
+
+        <!-- Stjerner, genre og beskrivelse til højre -->
+        <div class="col-md-4 mt-md-0 mt-4">
+            <!-- Indsæt stjerner over genre -->
+            <p><strong>Rating:</strong></p>
+            <div class="book-rating pb-3">
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+            </div>
+
+            <!-- Genre -->
+            <p><strong>Genre:</strong> <?php echo $book->bookGenre; ?></p>
+
+            <!-- Beskrivelse -->
+            <p><strong>Beskrivelse:</strong> <?php echo $book->bookDescription; ?></p>
+        </div>
     </div>
 
-    <h4>Forfattere af denne bog:</h4>
-    <div class="row g-4 mt-2">
+    <!-- Forfattere af denne bog -->
+    <h4 class="mt-5">Forfattere af denne bog:</h4>
+    <div class="row g-4 py-3">
         <?php foreach($authors as $author) { ?>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $author->authName; ?></h5>

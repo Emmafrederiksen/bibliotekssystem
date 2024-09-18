@@ -4,11 +4,12 @@ require "settings/init.php";
 
 if (!empty($_POST)) {
     // Hent input fra formularen og indsæt det i databasen
-    $db->sql("INSERT INTO books (bookTitle, bookYear, bookGenre) 
-              VALUES (:bookTitle, :bookYear, :bookGenre)", [
+    $db->sql("INSERT INTO books (bookTitle, bookYear, bookGenre, bookDescription) 
+              VALUES (:bookTitle, :bookYear, :bookGenre, :bookDescription)", [
         ":bookTitle" => $_POST["bookTitle"],
         ":bookYear" => $_POST["bookYear"],
         ":bookGenre" => $_POST["bookGenre"],
+        ":bookDescription" => $_POST["bookDescription"], // Tilføj beskrivelsen her
     ]);
 
     // Hent den sidste indsatte bookId
@@ -52,7 +53,6 @@ if (!empty($_POST)) {
         }
     }
 
-
     // Redirect tilbage til adminBooks.php efter at have oprettet bogen
     header("Location: adminBooks.php");
     exit;
@@ -95,6 +95,10 @@ if (!empty($_POST)) {
         <div class="mb-3 col-12 col-md-6">
             <label for="authors" class="form-label">Forfattere (adskilt med komma)</label>
             <input type="text" name="authors" id="authors" class="form-control" placeholder="Fx: J.K. Rowling, George R.R. Martin">
+        </div>
+        <div class="mb-3 col-12 col-md-6">
+            <label for="bookDescription" class="form-label">Beskrivelse</label>
+            <textarea name="bookDescription" id="bookDescription" class="form-control" rows="4" placeholder="Indtast en kort beskrivelse af bogen"></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Tilføj bog</button>

@@ -115,9 +115,9 @@ $authorsString = implode(", ", $authorNames);
                 <label for="bookDescription" class="form-label">Bogbeskrivelse</label>
                 <input type="text" name="data[bookDescription]" id="bookDescription" class="form-control" value="<?php echo $book->bookDescription; ?>" required>
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-4 my-5">
                 <input type="hidden" name="bookId" value="<?php echo $bookId; ?>">
-                <button type="submit" class="btn btn-primary w-25">Opdater</button>
+                <button type="submit" class="btn btn-primary">Opdater</button>
             </div>
         </div>
     </form>
