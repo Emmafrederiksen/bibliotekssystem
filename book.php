@@ -33,9 +33,9 @@ $authors = $db->sql("SELECT authId, authName FROM author
 
 <body>
 <div class="container mt-4">
-    <h1><?php echo $book->bookTitle; ?></h1>
+    <h1>Bog: <?php echo $book->bookTitle; ?></h1>
 
-    <!-- Vis bogens billede -->
+    <!-- Viser bogens billede -->
     <div class="my-3">
         <?php if (!empty($book->bookImage)) { ?>
             <img src="img/<?php echo $book->bookImage; ?>" alt="<?php echo $book->bookTitle; ?>" style="max-width: 100%; height: 400px;">
