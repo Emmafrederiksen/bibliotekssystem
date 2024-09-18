@@ -5,13 +5,40 @@ require "settings/init.php";
 // Hvis formularen er indsendt, opdater bogens data
 if (!empty($_POST['bookId']) && !empty($_POST['data'])) {
     $data = $_POST['data'];
-    $db->sql("UPDATE books SET bookTitle = :bookTitle, bookYear = :bookYear, bookGenre = :bookGenre 
+
+    // Opdater bogens data, inklusive bookDescription
+    $db->sql("UPDATE books SET bookTitle = :bookTitle, bookYear = :bookYear, bookGenre = :bookGenre, bookDescription = :bookDescription 
     WHERE bookId = :bookId", [
         ":bookTitle" => $data['bookTitle'],
         ":bookYear" => $data['bookYear'],
         ":bookGenre" => $data['bookGenre'],
+        ":bookDescription" => $data['bookDescription'],
         ":bookId" => $_POST['bookId']
     ]);
+
+    // Opdater forfattere (først slet eksisterende relationer)
+    $db->sql("DELETE FROM book_author_con WHERE boAuCBookId = :bookId", [":bookId" => $_POST['bookId']]);
+
+    // Indsæt nye forfattere
+    $authors = explode(",", $_POST['authors']); // Adskiller forfattere med komma
+    foreach ($authors as $authorName) {
+        $authorName = trim($authorName); // Fjern unødvendige mellemrum
+
+        // Find forfatteren, eller opret en ny
+        $author = $db->sql("SELECT authId FROM author WHERE authName = :authName", [":authName" => $authorName]);
+        if (empty($author)) {
+            $db->sql("INSERT INTO author (authName) VALUES (:authName)", [":authName" => $authorName]);
+            $authorId = $db->lastInsertId();
+        } else {
+            $authorId = $author[0]->authId;
+        }
+
+        // Opret relationen mellem bogen og forfatteren
+        $db->sql("INSERT INTO book_author_con (boAuCBookId, boAuCAuthorId) VALUES (:bookId, :authorId)", [
+            ":bookId" => $_POST['bookId'],
+            ":authorId" => $authorId
+        ]);
+    }
 
     header("Location: adminBookUpdate.php?succes=1&bookId=" . $_POST['bookId']);
     exit;
@@ -26,6 +53,17 @@ $bookId = $_GET["bookId"];
 $book = $db->sql("SELECT * FROM books WHERE bookId = :bookId", [":bookId" => $bookId]);
 $book = $book[0]; // Vælg den første (og eneste) række fra resultatet
 
+// Hent forfattere for bogen
+$authors = $db->sql("SELECT authName FROM author 
+                    INNER JOIN book_author_con ON author.authId = book_author_con.boAuCAuthorId
+                    WHERE book_author_con.boAuCBookId = :bookId", [':bookId' => $bookId]);
+
+// Konverter forfattere til en streng adskilt med komma
+$authorNames = [];
+foreach ($authors as $author) {
+    $authorNames[] = $author->authName;
+}
+$authorsString = implode(", ", $authorNames);
 ?>
 <!DOCTYPE html>
 <html lang="da">
@@ -48,7 +86,7 @@ $book = $book[0]; // Vælg den første (og eneste) række fra resultatet
 
     <?php
     if (!empty($_GET["succes"]) && $_GET['succes'] == 1) {
-        echo "<h4>Eventet er opdateret</h4>";
+        echo "<h4>Bogen er opdateret</h4>";
     }
     ?>
 
@@ -71,7 +109,11 @@ $book = $book[0]; // Vælg den første (og eneste) række fra resultatet
             </div>
             <div class="col-12 col-md-4">
                 <label for="authors" class="form-label">Forfattere (adskilt med komma)</label>
-                <input type="text" name="authors" id="authors" class="form-control" placeholder="Fx: J.K. Rowling, George R.R. Martin">
+                <input type="text" name="authors" id="authors" class="form-control" value="<?php echo $authorsString; ?>" required>
+            </div>
+            <div class="col-12 col-md-4">
+                <label for="bookDescription" class="form-label">Bogbeskrivelse</label>
+                <input type="text" name="data[bookDescription]" id="bookDescription" class="form-control" value="<?php echo $book->bookDescription; ?>" required>
             </div>
             <div class="col-12 col-md-4">
                 <input type="hidden" name="bookId" value="<?php echo $bookId; ?>">
