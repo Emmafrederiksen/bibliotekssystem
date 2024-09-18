@@ -31,7 +31,7 @@ require "settings/init.php";
                 <div class="card w-100">
                     <div class="card-header bg-info-subtle text-black py-3">
                         <?php
-                        echo "<h2 class='m-0'>".$bibliotek->bookTitle . "<span class='text-secondary'> / " . $bibliotek->bookYear . "</span></h2>";
+                        echo "<h3 class='m-0'>".$bibliotek->bookTitle . "<span class='text-secondary'> / " . $bibliotek->bookYear . "</span></h3>";
                         ?>
                     </div>
                     <div class="card-body">
