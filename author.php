@@ -38,7 +38,7 @@ $books = $db->sql("SELECT bookId, bookTitle, bookImage FROM books
     <h5>Født: <?php echo $author->authBirthday; ?></h5>
 
     <!-- Vis forfatterens andre bøger -->
-    <h4 class="pt-5">Andre bøger skrevet af denne forfatter:</h4>
+    <h4 class="pt-5">Bøger skrevet af denne forfatter:</h4>
     <div class="row g-4 mt-2">
         <?php foreach($books as $book) { ?>
             <div class="col-12 col-md-4">
