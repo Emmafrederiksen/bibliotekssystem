@@ -31,7 +31,7 @@ require "settings/init.php";
         foreach($biblioteker as $bibliotek) {
             ?>
             <div class="col-12 col-md-4 ">
-                <div class="card w-100 h-100 d-flex flex-column">
+                <div class="card hover w-100 h-100 d-flex flex-column">
                     <div class="card-header bg-info-subtle text-black py-3">
                         <?php
                         echo "<h3 class='m-0'>".$bibliotek->bookTitle . "<span class='text-secondary'> / " . $bibliotek->bookYear . "</span></h3>";
@@ -61,7 +61,7 @@ require "settings/init.php";
                         <p class="text-truncate"><strong>Beskrivelse:</strong> <?php echo $bibliotek->bookDescription; ?></p>
                     </div>
 
-                    <div class="card-footer text-muted">
+                    <div class="card-footer">
                         <a class="btn btn-outline-secondary stretched-link" href="book.php?bookId=<?php echo $bibliotek->bookId; ?>" role="button">Læs mere</a>
                     </div>
                 </div>

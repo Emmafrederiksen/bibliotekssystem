@@ -18,3 +18,13 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 @import "bootstrapComponents";
 
 // 5. Du kan lave styling her...
+
+
+.hover{
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover:hover {
+	transform: scale(1.05); /* Lidt forstørrelse ved hover */
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Tilføjer skygge ved hover */
+}
